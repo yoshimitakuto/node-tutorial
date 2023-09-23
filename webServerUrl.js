@@ -11,8 +11,8 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200; //200はすべて問題ないことを意味している
     res.setHeader('Content-Type', 'text/html'); //httpサーバーからの応答がHTMLとして表示させる場合は「text/html」と正しいコンテンスタイプのhttpヘッダーを含める必要がある。
     const q = url.parse(req.url, true).query;
-    const res = q.year + " " + q.month;
-    res.end(res);
+    const txt = q.year + " " + q.month;
+    res.end(txt);
     // res.end(req.url); //URLの最後にsummerを入れると「/summer」と表示される
 });
 
