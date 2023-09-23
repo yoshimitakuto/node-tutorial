@@ -1,5 +1,16 @@
 const express = require('express');
 const app = express();
+const mysql = require('mysql2');
+
+
+// 定数connectionにcreateConnectionを使って接続するデータベースの情報を格納する
+const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    // port: '3305',
+    database: 'node_tutorial_db'
+});
 
 /* ルーティング設定の基本構成
  app.get('アクセスするURL', (req, res) => {
