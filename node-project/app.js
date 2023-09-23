@@ -6,6 +6,8 @@ const app = express();
      URLにアクセルした際の挙動を記載
 }); */
 
+app.use(express.static('link'));
+
 // index.ejsファイルのルーティング設定
 app.get('/', (req, res) => {
     res.render('index.ejs');
