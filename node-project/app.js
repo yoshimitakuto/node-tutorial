@@ -8,9 +8,18 @@ const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
     password: '',
-    // port: '3305',
+    port: '3306',
     database: 'node_tutorial_db'
 });
+
+connection.query (
+    //SQL文でusersテーブルからすべてのデータ（*は全てのデータ）を取得する命令文
+    'SELECT * FROM users',
+    (error, results) => {
+        console.log(error);
+        console.table(results);
+    }
+);
 
 /* ルーティング設定の基本構成
  app.get('アクセスするURL', (req, res) => {
