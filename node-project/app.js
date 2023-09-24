@@ -40,7 +40,16 @@ app.get('/test', (req, res) => {
 
 // test.ejsファイルのルーティング設定
 app.get('/top', (req, res) => {
-    res.render('top.ejs');
+    connection.query('SELECT * FROM users',
+    (error, results) => {
+        if (error) {
+            res.render('errorが発生しました');
+        } else {
+            res.render('top.ejs', {userTable:results});
+            /*rendar()関数は、第２引数に｛プロパティ名：値｝のオブジェクト型でデータを記載することで、
+            EJSにデータを受け渡すことができます。*/
+        }
+    })
 });
 
 app.listen(3000);

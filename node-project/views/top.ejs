@@ -3,5 +3,12 @@
 <%- include('nav'); %>
 
     <h1>top.ejsです</h1>
+
+    <% userTable.forEach((user) => { %> <%# userTableオブジェクトをforEachで回し、ユーザー一人ひとりの情報を抽出 %>
+        <p><%= user.id %>
+           <span><%= user.name %></span>
+        </p>
+    <% }) %>
+
 </body>
 </html>
