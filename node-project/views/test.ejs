@@ -4,5 +4,26 @@
 <%- include('nav'); %>
 
     <h1>test.ejsです</h1>
+
+    <form action="/top" method="post">
+        <p>ID</p>
+        <input type="number" name="addId">
+        <p>NAME</p>
+        <input type="text" name="addName">
+        <input type="submit" value="登録">
+    </form>
+
+    <!-- <%# if (error) { %>
+        <p><%#= error.message %></p>
+    <%# } else { %>
+        <form action="/top" method="post">
+            <p>ID</p>
+            <input type="number" name="addId">
+            <p>NAME</p>
+            <input type="text" name="addName">
+            <input type="submit" value="登録">
+        </form>
+    <%# } %> -->
+
 </body>
 </html>

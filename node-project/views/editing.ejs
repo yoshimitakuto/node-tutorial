@@ -1,0 +1,15 @@
+<%- include('head'); %>
+
+<%- include('nav'); %>
+
+    <h1>editing.ejsです</h1>
+
+    <form action="/update/<%= userTable.id %>" method="post">
+        <p>ID</p>
+        <input type="number" value="<%= userTable.id %>" disabled="disabled">
+        <p>NAME</p>
+        <input type="text" name="updateName" value="<%= userTable.name %>">
+        <input type="submit" value="編集">
+    </form>
+</body>
+</html>

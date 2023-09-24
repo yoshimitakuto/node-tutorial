@@ -4,10 +4,15 @@
 
     <h1>top.ejsです</h1>
 
-    <% userTable.forEach((user) => { %> <%# userTableオブジェクトをforEachで回し、ユーザー一人ひとりの情報を抽出 %>
-        <p><%= user.id %>
-           <span><%= user.name %></span>
-        </p>
+    <% userTable.forEach((user) => { %>
+        <div>
+          <p><%= user.id %></p>
+          <p><%= user.name %></p>
+          <form action="/delete/<%= user.id %>" method="post">
+            <input class="testBtn" type="submit" value="削除">
+          </form>
+          <a href="/editing/<%= user.id %>" class="abtn">編集</a>
+        </div>
     <% }) %>
 
 </body>
