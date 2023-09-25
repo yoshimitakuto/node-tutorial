@@ -1,7 +1,7 @@
 'use strict';
 
 const http = require("http"); //httpモジュール読み込み
-const dt = require('./DateModule'); //独自モジュール読み込み
+const dt = require('../DateModule'); //独自モジュール読み込み
 
 const hostname = '127.0.0.1';
 const port = 3000;
