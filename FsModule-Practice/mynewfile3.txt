@@ -1,1 +1,1 @@
-Hello WriteFile Content
+This is my text replace
