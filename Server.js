@@ -8,7 +8,7 @@ const fs = require('./fsmodule');
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.end(fs.read, fs.writefs);
+    res.end(fs);
 });
 
 server.listen(port, hostName, () => {

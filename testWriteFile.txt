@@ -1,1 +1,1 @@
-fsモジュールの「writeFile」で作成しました！
+fsモジュールの「writeFile」で作成しました！appendFileを利用して文字列を追記しました！
