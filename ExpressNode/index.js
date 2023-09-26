@@ -1,13 +1,41 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 const port = 3000;
 
 app.use(express.static("public"));
+app.use(morgan()); // 全ての機能で実行可能にする
 
 // JSON形式で送信されたリクエストを扱うために必要なミドルウェア
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+// ============ミドルウェア関数==============
+
+// ミドルウェア関数を作る
+const myLogger = (req, res, next) => {
+    console.log('LOGGER!!');
+    next();
+};
+app.use(myLogger); //すべてのAPIに適用させたい場合はuseメソッドを使用する
+
+// 自作ミドルウェア
+const requestTime = (req, res, next) => {
+    req.requestTime = Date.now(); //なんらかの値を取得して、それを後続処理に伝えたい場合はこのような書き方をされることが多い
+    next();
+};
+
+// 設定可能なミドルウェア関数 ※関数を返す関数の書き方
+const myCustomLogger = (option) => (req, res, next) => {
+    if (option) {
+        console.log(`LOGGER ${option}`);
+    } else {
+        console.log('ERROR'+' '+'LOGGER');
+    }
+    next();
+};
 
 const interests = [
     {
@@ -32,12 +60,13 @@ app.get('/', (req, res) => {
 // ============通常のルーティング==============
 
 // 取得
-app.get('/hogehoge', (req, res) => {
+app.get('/hogehoge', (req, res) => { //第二引数にミドルウェア関数を入れると実行される
     res.send("hogehoge");
 });
 
 // データ送信
-app.post('/', (req, res) => {
+app.post('/', myLogger, requestTime, myCustomLogger('hogehoge'), (req, res) => { //引数にミドルウェア関数をいくつも入れることが可能
+    console.log(req.requestTime);
     console.log(req.body);
     res.send("Got a Post request");
 });
