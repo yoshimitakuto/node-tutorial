@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const mysql = require('mysql2');
 const app = express();
 const port = 3000;
 
@@ -10,6 +11,25 @@ app.use(morgan()); // 全ての機能で実行可能にする
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+// mysqlと接続
+const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    database: 'express_todoapp_db',
+    // 本番環境では環境設定を使用する
+    password: ''
+});
+
+connection.connect((err) => {
+    if (err) {
+        console.log(`error connecting: ${err.stack} 😱`);
+        return;
+    } else {
+        console.log('SUCCESS: connecting mysql now 👍');
+    }
+});
 
 
 // ============ミドルウェア関数==============
@@ -54,6 +74,37 @@ const interests = [
 app.get('/', (req, res) => {
     res.json(interests);
     // res.send("Hello World!"); //文字列を受け取るメソッドのため「res.send(JSON.stringify(interests))」とする
+});
+
+// クエリーを使用して値をgetしている
+app.get('/todo', (req, res) => {
+    connection.query('SELECT * FROM todo', (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send("error");
+            return;
+        }
+        console.log(results);
+        res.json(results);
+    });
+});
+
+app.post('/todo/add', (req, res) => {
+    connection.query('INSERT INTO todo(status,task) VALUE(?,?)', [req.body.addStatus,req.body.addTask], (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send("error");
+            return;
+        } 
+        connection.query('SELECT * FROM todo', (error, results) => {
+            if (error) {
+                console.error(error);
+                res.status(500).send("error");
+                return;
+            }
+            res.render('todo.pug', { todoTable: results });
+        });
+    });
 });
 
 
