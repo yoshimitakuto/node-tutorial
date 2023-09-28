@@ -69,6 +69,28 @@ app.post('/todo', (req, res) => {
     // res.send("OK"); //試し用
 });
 
+app.put('/todo/:todoId', (req, res) => {
+    console.log(req.body);
+    const todoId = req.params.todoId;
+    console.log(req.body);
+    const todo = {
+        status: req.body.status,
+        task: req.body.task,
+    };
+    connection.query(
+        'UPDATE todo SET status=?, task=? WHERE id=?',
+        [todo.status,todo.task,todoId],
+        (error, results) => {
+            if (error) {
+                console.error(error);
+                res.status(500).send("error");
+                return;
+            }
+            res.send("ok");
+        }
+    );
+});
+
 // サーバー起動
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
