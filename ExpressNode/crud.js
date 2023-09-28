@@ -42,7 +42,7 @@ const myCustomLogger = (options) => (req, res, next) => {
 
 // API
 app.get('/todo', myCustomLogger("ミドルウェア起動中"), (req, res) => {
-    connection.query('SELECT * FROM todo', (error, results) => {
+    connection.query('SELECT * FROM todo WHERE deleted_at IS NULL', (error, results) => { //[deleted_at IS NULL]を追加してカラムがnull以外のものを取得するようにして、論理削除を実現！！
         if (error) {
             console.log(error);
             res.status(500).send("error");
@@ -78,7 +78,7 @@ app.put('/todo/:todoId', (req, res) => {
         task: req.body.task,
     };
     connection.query(
-        'UPDATE todo SET status=?, task=? WHERE id=?',
+        'UPDATE todo SET status=?, task=? WHERE id=? AND deleted_at IS NULL', //論理削除につき、putでも対象外とする[AND deleted_at IS NULL]
         [todo.status,todo.task,todoId],
         (error, results) => {
             if (error) {
@@ -91,12 +91,13 @@ app.put('/todo/:todoId', (req, res) => {
     );
 });
 
+// 実際にはAPI上ではあたかも削除されているように見せる「論理削除・ソフトディーテッド」を使用する（論理削除対応コード）
 app.delete('/todo/:todoId', (req, res) => {
     console.log(req.params);
     const todoId = req.params.todoId;
     connection.query(
-        'DELETE FROM todo WHERE id=?',
-        todoId,
+        'UPDATE todo SET deleted_at=? WHERE id=?',
+        [new Date(), todoId],
         (error, results) => {
             if (error) {
                 console.error(error);
@@ -106,6 +107,18 @@ app.delete('/todo/:todoId', (req, res) => {
             res.send("ok");
         }
     );
+    // connection.query(
+    //     'DELETE FROM todo WHERE id=?',
+    //     todoId,
+    //     (error, results) => {
+    //         if (error) {
+    //             console.error(error);
+    //             res.status(500).send("error");
+    //             return;
+    //         }
+    //         res.send("ok");
+    //     }
+    // );
 });
 
 // サーバー起動
