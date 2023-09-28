@@ -70,7 +70,7 @@ app.post('/todo', (req, res) => {
 });
 
 app.put('/todo/:todoId', (req, res) => {
-    console.log(req.body);
+    console.log(req.params);
     const todoId = req.params.todoId;
     console.log(req.body);
     const todo = {
@@ -80,6 +80,23 @@ app.put('/todo/:todoId', (req, res) => {
     connection.query(
         'UPDATE todo SET status=?, task=? WHERE id=?',
         [todo.status,todo.task,todoId],
+        (error, results) => {
+            if (error) {
+                console.error(error);
+                res.status(500).send("error");
+                return;
+            }
+            res.send("ok");
+        }
+    );
+});
+
+app.delete('/todo/:todoId', (req, res) => {
+    console.log(req.params);
+    const todoId = req.params.todoId;
+    connection.query(
+        'DELETE FROM todo WHERE id=?',
+        todoId,
         (error, results) => {
             if (error) {
                 console.error(error);
