@@ -13,7 +13,9 @@ const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
     database: 'express_todoapp_db',
-    password: ''
+    password: '',
+    // SQLインジェクション対策（デフォルトではfalseとなっている）
+    stringifyObjects: true,
 });
 
 // mysqlとの接続確認
@@ -58,14 +60,18 @@ app.post('/todo', (req, res) => {
         status: req.body.status,
         task: req.body.task,
     };
-    connection.query('INSERT INTO todo SET ?', todo, (error, results) => { //SQLの？の部分には第二引数の[todo]がバインドされる（バインド：紐づける・関連づける・割り当てる）
-        if (error) {
-            console.error(error);
-            res.status(500).send("error");
-            return;
+    connection.query(
+        'INSERT INTO todo (status, task) VALUE (?, ?)', 
+        [todo.status, todo.task], 
+        (error, results) => { //SQLの？の部分には第二引数の[todo]がバインドされる（バインド：紐づける・関連づける・割り当てる）
+            if (error) {
+                console.error(error);
+                res.status(500).send("error");
+                return;
+            }
+            res.send("ok");
         }
-        res.send("ok");
-    });
+    );
     // res.send("OK"); //試し用
 });
 
