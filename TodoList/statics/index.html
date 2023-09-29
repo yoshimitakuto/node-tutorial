@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>TodoList Practice</title>
+</head>
+<body>
+
+    <h1>My Todo List</h1>
+
+    <div>
+        <label id="item-label" for="item">Enter a item:</label>
+
+        <input type="hidden" id="edit-item-id">
+        <input type="text" name="item" id="todo-task">
+        <select name="todo-status" id="todo-status">
+            <option value=""></option>
+            <option value="1">IMCOMPLETE</option>
+            <option value="2">PROGRESS</option>
+            <option value="3">PENDING</option>
+            <option value="4">COMPLETE</option>
+        </select>
+        <button id="submit-button">Add item</button>
+        <button id="cancel-button">Cancel</button>
+    </div>
+
+    <ul></ul>
+
+    <script src="./index.js"></script>
+</body>
+</html>
