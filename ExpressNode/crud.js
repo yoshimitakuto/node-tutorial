@@ -91,7 +91,7 @@ app.put('/todo/:todoId', (req, res) => {
     );
 });
 
-// 実際にはAPI上ではあたかも削除されているように見せる「論理削除・ソフトディーテッド」を使用する（論理削除対応コード）
+// 実際にはAPI上ではあたかも削除されているように見せる「論理削除・ソフトデリーテッド」を使用する（論理削除対応コード）
 app.delete('/todo/:todoId', (req, res) => {
     console.log(req.params);
     const todoId = req.params.todoId;
